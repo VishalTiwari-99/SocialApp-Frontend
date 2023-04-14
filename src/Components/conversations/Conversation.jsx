@@ -5,12 +5,13 @@ import axios from 'axios';
 const Conversation = ({conversation, currentUser}) => {
   const [user, setUser] = useState(null);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const URL = process.env.REACT_APP_SERVER_URL;
 
   useEffect(()=>{
     const friendId = conversation.members.find(m => m!==currentUser._id);
 
     const getUser = async () => {
-      await axios.get("/users?userId="+friendId, {
+      await axios.get(URL+"/users?userId="+friendId, {
         headers:{
           'Content-Type': 'application/json',
         }
@@ -21,7 +22,7 @@ const Conversation = ({conversation, currentUser}) => {
       })
     };
     getUser();
-  }, [currentUser, conversation]);
+  }, [currentUser, conversation, URL]);
 
 
   return (

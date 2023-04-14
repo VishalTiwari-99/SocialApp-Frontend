@@ -13,15 +13,16 @@ const Rightbar = ({user}) => {
   const [friends, setFriends] = useState([]);
   const {user: currentUser, dispatch} = useContext(AuthContext);
   const navigate = useNavigate();
+  const URL = process.env.REACT_APP_SERVER_URL;
 
   const [followed, setFollowed] = useState(currentUser.followings.includes(user?._id));
   useEffect(()=>{
     setFollowed(currentUser.followings.includes(user?._id))
-  }, [currentUser, user]);
+  }, [currentUser, user, URL]);
   
   useEffect(()=>{
     const getFriends = async() => {
-      axios.get("/users/friends/"+user._id,{
+      axios.get(URL+"/users/friends/"+user._id,{
         headers:{
           'Content-Type': 'application/json',
         }
@@ -33,15 +34,15 @@ const Rightbar = ({user}) => {
       })
     };
     getFriends();
-  },[user]);
+  },[user, URL]);
 
   const handleClick = async () =>{
     let url;
     if(followed){
-      url = "/users/"+user._id+"/unfollow";
+      url = URL + ("/users/"+user._id+"/unfollow");
       dispatch({type:"UNFOLLOW", payload: user._id});
     }else{
-      url = "/users/"+user._id+"/follow";
+      url = URL + ("/users/"+user._id+"/follow");
       dispatch({type:"FOLLOW", payload: user._id});
     }
 
@@ -66,7 +67,7 @@ const Rightbar = ({user}) => {
     return(
       <>
         <div className="birthdayContainer">
-            <img src="assets/gift.png" alt='' className='birthdayImg' />
+            <img src={PF + "gift.png"} alt='' className='birthdayImg' />
             <span className="birthdayText"> <b>Vin Diesel</b> and <b>3 other friends</b> have birthday today</span>
           </div>
           <img src="assets/ad.png" alt="" className="rightbarAd" />

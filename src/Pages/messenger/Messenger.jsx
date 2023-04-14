@@ -18,6 +18,7 @@ const Messenger = () => {
   const socket = useRef();
   const {user} = useContext(AuthContext);
   const scrollRef = useRef();
+  const URL = process.env.REACT_APP_SERVER_URL;
 
   const handleMssgSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +36,7 @@ const Messenger = () => {
       text: newMessage,
     });
 
-    await axios.post("/messages", message, {
+    await axios.post(URL+"/messages", message, {
       headers:{
         'Content-Type': 'application/json',
       }
@@ -75,7 +76,7 @@ const Messenger = () => {
 
   useEffect(()=>{
     const getConversation = async () => {
-      axios.get("/conversations/"+user._id, {
+      axios.get(URL+"/conversations/"+user._id, {
         headers:{
           'Content-Type': 'application/json',
         }
@@ -86,11 +87,11 @@ const Messenger = () => {
       })
     };
     getConversation();
-  }, [user]);
+  }, [user, URL]);
 
   useEffect(()=>{
     const getMessages = async () => {
-      await axios.get("/messages/"+currentChat?._id, {
+      await axios.get(URL+"/messages/"+currentChat?._id, {
         headers:{
           'Content-Type': 'application/json',
         }
@@ -101,7 +102,7 @@ const Messenger = () => {
       })
     }
     getMessages();
-  }, [currentChat]);
+  }, [currentChat, URL]);
 
   useEffect(()=>{
     scrollRef.current?.scrollIntoView();

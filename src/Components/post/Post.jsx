@@ -12,6 +12,7 @@ const Post = ({post}) => {
     const [user, setUser] = useState({});
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const {user:currentUser} = useContext(AuthContext);
+    const URL = process.env.REACT_APP_SERVER_URL;
 
     useEffect(()=>{
       setIsliked(post.likes.includes(currentUser._id));
@@ -19,7 +20,7 @@ const Post = ({post}) => {
 
     useEffect(()=>{
         const fetchUser = async () => {
-          axios.get(`/users?userId=${post.userId}`, {
+          axios.get(URL+`/users?userId=${post.userId}`, {
             headers:{
               'Content-Type': 'application/json',
             }
@@ -28,11 +29,11 @@ const Post = ({post}) => {
           })
         };
         fetchUser();
-      },[post.userId])
+      },[post.userId, URL])
 
     const likeHandler = () => {
       try{
-        axios.put("/post/"+post._id+"/like", {userId:currentUser._id});
+        axios.put(URL+"/post/"+post._id+"/like", {userId:currentUser._id});
       }catch(err){
 
       }

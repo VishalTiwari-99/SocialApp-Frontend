@@ -13,6 +13,8 @@ const Share = () => {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const desc = useRef();
   const [file, setFile] = useState(null);
+  const URL = process.env.REACT_APP_SERVER_URL;
+
   const submitHandler = async (e) => {
     e.preventDefault();
     const newPost = {
@@ -26,7 +28,7 @@ const Share = () => {
       data.append("file", file);
       newPost.img = fileName;
       try{
-        await axios.post("/upload", data,{
+        await axios.post(URL+"/upload", data,{
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -37,7 +39,7 @@ const Share = () => {
     }
 
     try{
-      await axios.post("/post", newPost, {
+      await axios.post(URL+"/post", newPost, {
         headers: {
           'Content-Type': 'application/json'
         }

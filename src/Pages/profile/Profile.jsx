@@ -11,10 +11,11 @@ const Profile = () => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const [user, setUser] = useState({_id:"1",});
     const username = useParams().username;
+    const URL = process.env.REACT_APP_SERVER_URL;
     
     useEffect(()=>{
         const fetchUser = async () => {
-          axios.get(`/users?username=${username}`, {
+          axios.get(URL+`/users?username=${username}`, {
             headers:{
               'Content-Type': 'application/json',
             }
@@ -23,7 +24,7 @@ const Profile = () => {
           })
         };
         fetchUser();
-      },[username]);
+      },[username, URL]);
 
   return (
     <div>

@@ -9,9 +9,12 @@ import { AuthContext } from '../../context/AuthContext';
 const Feed = ({username}) => {
   const [posts, setPosts] = useState([]);
   const {user} = useContext(AuthContext);
+  const URL = process.env.REACT_APP_SERVER_URL;
+
   useEffect(()=>{
     const fetchPosts = async() => {
-      var url = username ? `/post/profile/${username}` : "/post/timeline/"+user._id;
+      var url = URL+(username ? `/post/profile/${username}` : "/post/timeline/"+user._id);
+      console.log("URL: "+url);
       axios.get(url, {
         headers:{
           'Content-Type': 'application/json',
@@ -23,7 +26,7 @@ const Feed = ({username}) => {
       })
     };
     fetchPosts();
-  },[username,user._id])
+  },[username, user._id, URL])
 
   return (
     <div className='feed'>

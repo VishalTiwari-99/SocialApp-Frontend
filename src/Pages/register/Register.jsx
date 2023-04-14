@@ -9,6 +9,7 @@ const Register = () => {
     const password = useRef();
     const passwordAgain = useRef();
     const navigate = useNavigate();
+    const URL = process.env.REACT_APP_SERVER_URL;
 
     const handleClick = async (e) => {
         e.preventDefault();
@@ -21,7 +22,7 @@ const Register = () => {
                 password: password.current.value,
             }
             try{
-                await axios.post("/auth/register", user, {
+                await axios.post(URL+"/auth/register", user, {
                     headers: {
                         'Content-Type': 'application/json'
                     }
